@@ -9,12 +9,14 @@ import {
 } from "react-router";
 
 import { AppNav } from './app-nav'
+import appCss from "./styles/app.css?url";
 
 export const meta: MetaFunction = () => ([{
   title: "Weather to fun",
 }]);
 
 export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: appCss },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

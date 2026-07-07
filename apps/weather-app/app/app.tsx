@@ -1,14 +1,10 @@
-// Uncomment this line to use CSS modules
-// import styles from './app.module.css';
-
 export function App() {
   return (
-    <div>
-      home
-    </div>
+    <main className="bg-surface text-text p-page">
+      <h1 className="text-text">Hello there,</h1>
+      <p className="text-text-muted">Weather-driven activity rankings, coming soon.</p>
+    </main>
   );
 }
 
 export default App;
-
-

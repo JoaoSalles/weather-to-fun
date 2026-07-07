@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-07T00:00:00Z",
+  "title": "Design System: Weather to Fun",
+  "extensions": {
+    "colorMeta": {
+      "accent": { "role": "primary", "displayName": "Instrument Teal", "canonical": "oklch(58% 0.11 196)", "tonalRamp": ["oklch(20% 0.06 196)", "oklch(30% 0.08 196)", "oklch(40% 0.10 196)", "oklch(50% 0.11 196)", "oklch(58% 0.11 196)", "oklch(70% 0.09 196)", "oklch(82% 0.06 196)", "oklch(94% 0.03 196)"] },
+      "accent-deep": { "role": "primary", "displayName": "Instrument Teal Deep", "canonical": "oklch(50% 0.11 196)" },
+      "ink": { "role": "neutral", "displayName": "Navy Ink", "canonical": "oklch(24% 0.03 255)", "tonalRamp": ["oklch(18% 0.03 255)", "oklch(24% 0.03 255)", "oklch(35% 0.025 255)", "oklch(48% 0.02 255)", "oklch(62% 0.015 255)", "oklch(78% 0.01 255)", "oklch(90% 0.008 255)", "oklch(98.5% 0.004 255)"] },
+      "surface": { "role": "neutral", "displayName": "Page Surface", "canonical": "oklch(98.5% 0.004 255)" },
+      "surface-sunken": { "role": "neutral", "displayName": "Sunken Surface", "canonical": "oklch(96.5% 0.006 255)" },
+      "surface-raised": { "role": "neutral", "displayName": "Raised Surface", "canonical": "oklch(99.5% 0.002 255)" },
+      "fav-excellent": { "role": "secondary", "displayName": "Verdict Excellent", "canonical": "oklch(86% 0.105 196)", "tonalRamp": ["oklch(70% 0.11 196)", "oklch(78% 0.11 196)", "oklch(86% 0.105 196)", "oklch(90% 0.08 196)", "oklch(93.5% 0.05 196)", "oklch(96.5% 0.022 196)", "oklch(98% 0.01 196)", "oklch(99% 0.004 196)"] },
+      "fav-good": { "role": "secondary", "displayName": "Verdict Good", "canonical": "oklch(90% 0.08 196)" },
+      "fav-fair": { "role": "secondary", "displayName": "Verdict Fair", "canonical": "oklch(93.5% 0.05 196)" },
+      "fav-poor": { "role": "secondary", "displayName": "Verdict Poor", "canonical": "oklch(96.5% 0.022 196)" },
+      "fav-none": { "role": "neutral", "displayName": "Not Viable", "canonical": "oklch(95% 0.004 255)" },
+      "danger": { "role": "tertiary", "displayName": "Danger", "canonical": "oklch(55% 0.15 25)", "tonalRamp": ["oklch(30% 0.10 25)", "oklch(40% 0.13 25)", "oklch(48% 0.15 25)", "oklch(55% 0.15 25)", "oklch(65% 0.14 25)", "oklch(78% 0.10 25)", "oklch(88% 0.06 25)", "oklch(95% 0.03 25)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The verdict headline. One per results screen, the loudest line." },
+      "title": { "displayName": "Title", "purpose": "Activity row headers in the matrix." },
+      "label": { "displayName": "Label", "purpose": "Day headers, tags, button text, structural furniture." },
+      "data": { "displayName": "Data", "purpose": "Scores and aligned numerics, tabular figures." }
+    },
+    "shadows": [
+      { "name": "hover-lift", "value": "0 1px 2px oklch(30% 0.04 255 / 0.06), 0 4px 12px oklch(30% 0.04 255 / 0.08)", "purpose": "Appears on hover/focus of a matrix cell or button. Never at rest." },
+      { "name": "panel-float", "value": "0 8px 24px oklch(30% 0.04 255 / 0.12)", "purpose": "The expanded reasoning panel and popovers. The only structural shadow." }
+    ],
+    "motion": [
+      { "name": "ease-out-quint", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Default easing for all state transitions." },
+      { "name": "duration-state", "value": "180ms", "purpose": "Standard transition duration for hover, focus, and inline expand." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single primary action on a screen: the search submit.",
+      "html": "<button class=\"ds-btn-primary\">Check the week</button>",
+      "css": ".ds-btn-primary { background: oklch(58% 0.11 196); color: oklch(98.5% 0.004 255); font: 500 0.8125rem/1.3 Inter, system-ui, sans-serif; letter-spacing: 0.04em; padding: 10px 18px; border: none; border-radius: 8px; cursor: pointer; transition: background .18s cubic-bezier(.23,1,.32,1), box-shadow .18s cubic-bezier(.23,1,.32,1); } .ds-btn-primary:hover { background: oklch(50% 0.11 196); box-shadow: 0 1px 2px oklch(30% 0.04 255 / 0.06), 0 4px 12px oklch(30% 0.04 255 / 0.08); } .ds-btn-primary:focus-visible { outline: 2px solid oklch(58% 0.11 196); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary actions: example-city chips, retry.",
+      "html": "<button class=\"ds-btn-ghost\">Chamonix</button>",
+      "css": ".ds-btn-ghost { background: oklch(98.5% 0.004 255); color: oklch(24% 0.03 255); font: 500 0.8125rem/1.3 Inter, system-ui, sans-serif; letter-spacing: 0.04em; padding: 10px 16px; border: 1px solid oklch(90% 0.008 255); border-radius: 8px; cursor: pointer; transition: background .18s cubic-bezier(.23,1,.32,1); } .ds-btn-ghost:hover { background: oklch(94% 0.04 196); } .ds-btn-ghost:focus-visible { outline: 2px solid oklch(58% 0.11 196); outline-offset: 2px; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "The city search: roomy on the empty state, compact in the results header.",
+      "html": "<input class=\"ds-input-search\" placeholder=\"Search a city\" />",
+      "css": ".ds-input-search { background: oklch(99.5% 0.002 255); color: oklch(24% 0.03 255); font: 400 1rem/1.55 Inter, system-ui, sans-serif; padding: 12px 14px; border: 1px solid oklch(82% 0.012 255); border-radius: 8px; width: 280px; transition: border-color .18s cubic-bezier(.23,1,.32,1), box-shadow .18s cubic-bezier(.23,1,.32,1); } .ds-input-search::placeholder { color: oklch(62% 0.015 255); } .ds-input-search:focus { outline: none; border-color: oklch(58% 0.11 196); box-shadow: 0 0 0 2px oklch(58% 0.11 196 / 0.35); }"
+    },
+    {
+      "name": "Verdict Cell",
+      "kind": "custom",
+      "refersTo": "matrix-cell",
+      "description": "The heart of the matrix: one activity on one day. Favorability tint plus word plus score plus condition glyph.",
+      "html": "<div class=\"ds-cell\" tabindex=\"0\"><span class=\"ds-cell-word\">Good</span><span class=\"ds-cell-score\">72</span><svg class=\"ds-cell-glyph\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></div>",
+      "css": ".ds-cell { display: flex; align-items: baseline; gap: 8px; background: oklch(90% 0.08 196); color: oklch(24% 0.03 255); padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: box-shadow .18s cubic-bezier(.23,1,.32,1); } .ds-cell-word { font: 500 0.8125rem/1.3 Inter, system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; } .ds-cell-score { margin-left: auto; font: 600 1rem/1.2 Inter, system-ui, sans-serif; font-feature-settings: 'tnum' 1; } .ds-cell-glyph { width: 16px; height: 16px; color: oklch(48% 0.02 255); } .ds-cell:hover { box-shadow: 0 1px 2px oklch(30% 0.04 255 / 0.06), 0 4px 12px oklch(30% 0.04 255 / 0.08); } .ds-cell:focus-visible { outline: 2px solid oklch(58% 0.11 196); outline-offset: 2px; }"
+    },
+    {
+      "name": "Day Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Day header and category tags. Neutral by default, Teal Wash when selected.",
+      "html": "<span class=\"ds-chip\">Mon 8</span>",
+      "css": ".ds-chip { display: inline-block; background: oklch(96.5% 0.006 255); color: oklch(62% 0.015 255); font: 500 0.8125rem/1.3 Inter, system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 8px; border: 1px solid oklch(90% 0.008 255); border-radius: 4px; }"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Slim top bar on Raised Surface with a hairline underline.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-brand\">Weather to Fun</span><a class=\"ds-nav-link ds-nav-link--active\" href=\"#\">Home</a><a class=\"ds-nav-link\" href=\"#\">About</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 24px; background: oklch(99.5% 0.002 255); border-bottom: 1px solid oklch(90% 0.008 255); padding: 12px 24px; } .ds-nav-brand { font: 600 1.125rem/1.3 Inter, system-ui, sans-serif; color: oklch(24% 0.03 255); margin-right: auto; } .ds-nav-link { font: 500 0.8125rem/1.3 Inter, system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: oklch(24% 0.03 255); text-decoration: none; padding: 4px 0; transition: color .18s cubic-bezier(.23,1,.32,1); } .ds-nav-link:hover { color: oklch(50% 0.11 196); } .ds-nav-link--active { color: oklch(50% 0.11 196); border-bottom: 2px solid oklch(58% 0.11 196); }"
+    },
+    {
+      "name": "Matrix Skeleton",
+      "kind": "custom",
+      "refersTo": "skeleton",
+      "description": "Loading placeholder shaped like a matrix cell. Slow opacity pulse, no spinner.",
+      "html": "<div class=\"ds-skel\"></div>",
+      "css": ".ds-skel { width: 100%; height: 44px; background: oklch(96.5% 0.006 255); border-radius: 8px; animation: ds-pulse 1.6s cubic-bezier(.23,1,.32,1) infinite; } @keyframes ds-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } } @media (prefers-reduced-motion: reduce) { .ds-skel { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Weather Instrument",
+    "overview": "This interface is a calm gauge, not a weather portal. A trip planner reads it the way you read a good instrument: the needle points somewhere and you believe it. Every surface is quiet so the one thing that matters, the verdict for an activity on a day, can be loud without shouting. The system is built on tinted near-whites and a deep navy ink, with a single teal doing double duty as both the interactive accent and the language of the verdict. Color is scarce on purpose; when teal appears, it means something. The register is product: familiarity is a feature, density serves comparison, and atmosphere earns its place only where it aids reading.",
+    "keyCharacteristics": [
+      "Light theme, navy-tinted near-whites, never pure white or black.",
+      "One teal accent carries both interaction and verdict; it stays under ~10% of any screen.",
+      "Verdict is never color alone: always paired with a word and a score.",
+      "Flat at rest; shadow appears only in response to state.",
+      "Inter throughout, tabular figures for scores."
+    ],
+    "rules": [
+      { "name": "The Scarce Teal Rule", "body": "Teal covers at most ~10% of any screen. It is reserved for interaction and verdict. It is never a decorative fill, never a header background, never a divider.", "section": "colors" },
+      { "name": "The Never-Pure Rule", "body": "No #000, no #fff. Every neutral is tinted toward navy (hue 255, chroma 0.004 to 0.03). Pure values look like a template; the tint is the instrument's finish.", "section": "colors" },
+      { "name": "The Two-Signal Rule", "body": "A verdict tint never travels alone. It always ships with a word (Excellent / Good / Fair / Poor / Not viable) and a numeric score, so the verdict survives grayscale and color blindness.", "section": "colors" },
+      { "name": "The Tabular Score Rule", "body": "Every score and aligned number uses tabular figures. In a seven-column matrix, proportional digits jitter the grid; tabular digits hold the line.", "section": "typography" },
+      { "name": "The One Voice Rule", "body": "No display or script face. The hierarchy is scale and weight, not a second typeface.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. If a shadow is visible without the user hovering, focusing, or expanding something, it is wrong. Depth at rest comes from the tonal ramp.", "section": "elevation" },
+      { "name": "The Navy-Shadow Rule", "body": "Shadows are tinted navy (oklch(30% 0.04 255)), never neutral black.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep teal scarce: interaction and verdict only, at most ~10% of a screen.",
+      "Do pair every verdict tint with a word and a score, so it survives grayscale and color blindness.",
+      "Do tint every neutral toward navy (hue 255, chroma 0.004 to 0.03) and use Navy Ink where you would reach for black.",
+      "Do convey resting depth with the three-step tonal ramp (Sunken, Page, Raised); reserve shadow for hover, focus, and transient overlays.",
+      "Do use tabular figures for every score and aligned number.",
+      "Do label an impossible activity 'Not viable this week' in neutral gray, distinct from a low score."
+    ],
+    "donts": [
+      "Don't ship the generic Bootstrap/SaaS template: rounded blue buttons, identical card grids, or hero-metric blocks.",
+      "Don't go skeuomorphic: no 3D clouds, glossy sun icons, or cartoon skies.",
+      "Don't use neon crypto/gamer darkness: no high-chroma glow, no gradients on black, no dark theme.",
+      "Don't use #000 or #fff anywhere.",
+      "Don't paint the verdict with a rainbow of hues; favorability is one teal, varied by chroma.",
+      "Don't stack cards or nest a card inside a card.",
+      "Don't use a border-left or border-right greater than 1px as a colored accent stripe.",
+      "Don't introduce a second typeface; scale and weight carry the hierarchy.",
+      "Don't open a modal for the verdict reasoning; expand it inline."
+    ]
+  }
+}

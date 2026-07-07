@@ -5,16 +5,18 @@
   "scripts": {},
   "sideEffects": false,
   "dependencies": {
-    "@react-router/node": "^7.14.2",
+    "@react-router/node": "^8.0.1",
     "isbot": "^4.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router": "^7.14.2"
+    "react-router": "^8.0.1"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.14.2",
+    "@react-router/dev": "^8.0.1",
+    "@tailwindcss/vite": "^4.3.1",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0"
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.3.1"
   }
 }
