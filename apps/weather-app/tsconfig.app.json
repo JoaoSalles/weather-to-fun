@@ -2,6 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
+    "paths": {
+      "~/*": ["./app/*"]
+    },
     "lib": [
       "DOM",
       "DOM.Iterable",

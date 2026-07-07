@@ -1,4 +1,5 @@
 /// <reference types='vitest' />
+import path from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import { reactRouter } from '@react-router/dev/vite';
 import tailwindcss from '@tailwindcss/vite';
@@ -24,6 +25,11 @@ function ignoreChromeDevtoolsProbe(): Plugin {
 export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: '../../node_modules/.vite/apps/weather-app',
+  resolve: {
+    alias: {
+      '~': path.resolve(import.meta.dirname, 'app'),
+    },
+  },
   server:{
     port: 4200,
     host: 'localhost',

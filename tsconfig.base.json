@@ -16,6 +16,9 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@collinson/source"]
+    "customConditions": ["@collinson/source"],
+    "paths": {
+      "@collinson/weather-domain": ["./libs/weather-domain/src/index.ts"]
+    }
   }
 }
