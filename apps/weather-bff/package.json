@@ -1,0 +1,13 @@
+{
+  "name": "@collinson/weather-bff",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@apollo/server": "^5.0.0",
+    "graphql": "^16.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0"
+  }
+}

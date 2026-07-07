@@ -1,0 +1,22 @@
+{
+  "name": "weather-bff",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/weather-bff/src",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsx watch src/main.ts",
+        "cwd": "apps/weather-bff"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsx src/main.ts",
+        "cwd": "apps/weather-bff"
+      }
+    }
+  }
+}
