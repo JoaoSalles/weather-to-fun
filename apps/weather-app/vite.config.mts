@@ -4,7 +4,7 @@ import { reactRouter } from '@react-router/dev/vite';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: '../../node_modules/.vite/apps/collinson',
+  cacheDir: '../../node_modules/.vite/apps/weather-app',
   server:{
     port: 4200,
     host: 'localhost',
@@ -27,7 +27,7 @@ export default defineConfig(() => ({
     },
   },
   test: {
-    name: '@collinson/collinson',
+    name: '@collinson/weather-app',
     watch: false,
     globals: true,
     environment: 'jsdom',

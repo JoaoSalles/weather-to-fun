@@ -1,12 +1,11 @@
 {
-  "name": "@collinson/collinson",
+  "name": "@collinson/weather-app",
   "private": true,
   "type": "module",
   "scripts": {},
   "sideEffects": false,
   "dependencies": {
     "@react-router/node": "^7.14.2",
-    "@react-router/serve": "^7.14.2",
     "isbot": "^4.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

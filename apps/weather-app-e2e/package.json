@@ -1,10 +1,10 @@
 {
-  "name": "@collinson/collinson-e2e",
+  "name": "@collinson/weather-app-e2e",
   "version": "0.0.1",
   "private": true,
   "nx": {
     "implicitDependencies": [
-      "@collinson/collinson"
+      "@collinson/weather-app"
     ]
   }
 }
