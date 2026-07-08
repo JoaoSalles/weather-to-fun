@@ -135,7 +135,35 @@ pnpm codegen
 
 ## Tech Stack
 
-APIs documentation:
+**Language & tooling**
+- **TypeScript** (strict mode) across every project
+- **Nx 23** monorepo with **pnpm** workspaces (`apps/*`, `libs/*`)
+- **Vite 8** bundler, **Vitest 4** unit tests (jsdom), **Playwright** e2e
+- **ESLint** + **Prettier**; `@nx/enforce-module-boundaries` for architecture layering
+
+**Frontend — `apps/weather-app`**
+- **React 19** + **React Router 7** (SPA mode, `ssr: false`)
+- **TanStack Query** for data fetching and client-side caching
+- **React Hook Form** + **Zod** for form handling and validation
+- **Tailwind CSS 4**, **Radix UI**, **lucide-react**, `class-variance-authority` / `clsx` / `tailwind-merge`
+- **graphql-request** as the typed GraphQL client
+
+**Backend — `apps/weather-bff`**
+- **Node.js** + **Apollo Server 5** on **Express 5** (`@as-integrations/express5`)
+- **GraphQL** schema-first API
+- **Redis** for server-side read-through caching (optional, injected at the composition root)
+
+**Domain — `libs/weather-domain`**
+- Pure, framework-agnostic **TypeScript** (only `tslib`) — Open-Meteo client, activity scoring, ranking
+
+**Code generation**
+- **GraphQL Code Generator** (`@graphql-codegen/cli` + client preset) — see `pnpm codegen`
+
+**External data**
+- **[Open-Meteo](https://open-meteo.com)** geocoding + forecast APIs
+
+
+## APIs documentation:
 
  - https://open-meteo.com/en/docs/geocoding-api
  - https://open-meteo.com/en/docs
