@@ -56,7 +56,7 @@ still observe the value the leader just wrote. This deduplicates per replica;
 
 **cross-instance**: deduplication would need a distributed lock (e.g. Redis `SETNX`/redlock), which is called out as a
 deliberate trade-off. See [caching-weather-provider.ts](libs/weather-domain/src/utils/caching-weather-provider.ts)
-and [single-flight.ts](libs/weather-domain/src/utils/single-flight.ts).
+and [single-flight.ts](libs/weather-domain/src/utils/single-flight.ts) (not implemented).
 
 
 ## Re-try
@@ -83,7 +83,7 @@ single-flight layers above: a cache hit skips the network entirely, and single-f
 retry storm for the same key is collapsed into one in-flight request.
 
 
-## CI
+## CI (Not implemented)
 
 A GitHub Actions deploy pipeline is not wired up yet, but the repo is structured so that one can be
 **incremental**. `nx affected -t build test lint typecheck` runs targets only for the projects

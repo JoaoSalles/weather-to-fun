@@ -85,3 +85,5 @@ The client talks to the BFF's single `rankActivities(city)` query via `graphql-r
   fetched but not yet visualized. The brief prioritizes architecture over UX polish.
 - **Placeholder theme.** The design tokens ship a mock palette, not the final brand.
 - **No SSR.** SPA mode (`ssr: false`) keeps deployment simple at the cost of initial-load SEO.
+- **No multiples cities.** The project is set to get the first city, there is no flow to resolve ambiguous cities
+- **No test e2e.**
