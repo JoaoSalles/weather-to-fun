@@ -54,8 +54,7 @@ many callers miss the cache for the same key at once, only the first triggers th
 the rest await its result. The cache read stays *inside* the single-flight so late-joining callers
 still observe the value the leader just wrote. This deduplicates per replica;
 
- cross-instance
-deduplication would need a distributed lock (e.g. Redis `SETNX`/redlock), which is called out as a
+**cross-instance**: deduplication would need a distributed lock (e.g. Redis `SETNX`/redlock), which is called out as a
 deliberate trade-off. See [caching-weather-provider.ts](libs/weather-domain/src/utils/caching-weather-provider.ts)
 and [single-flight.ts](libs/weather-domain/src/utils/single-flight.ts).
 
