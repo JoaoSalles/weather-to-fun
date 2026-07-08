@@ -162,6 +162,19 @@ pnpm codegen
 - **[Open-Meteo](https://open-meteo.com)** geocoding + forecast APIs
 
 
+## To run locally
+
+run backend
+```bash
+ pnpm exec nx serve weather-bff
+```
+run frontend
+```bash
+ pnpm exec nx dev weather-app
+```
+
+check browser at http://localhost:4200/
+
 ## APIs documentation:
 
  - https://open-meteo.com/en/docs/geocoding-api
