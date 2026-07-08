@@ -8,8 +8,8 @@ vi.mock('graphql-request', () => ({ request: requestMock }));
 describe('rankActivities client', () => {
   beforeEach(() => requestMock.mockReset());
 
-  it('defaults GQL_URL to localhost:4000', () => {
-    expect(GQL_URL).toBe('http://localhost:4000/');
+  it('defaults GQL_URL to localhost:4000/graphql', () => {
+    expect(GQL_URL).toBe('http://localhost:4000/graphql');
   });
 
   it('calls graphql-request with the document and variables and returns rankActivities', async () => {

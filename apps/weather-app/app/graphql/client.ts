@@ -2,7 +2,7 @@ import { request } from 'graphql-request';
 import { RANK_ACTIVITIES, GET_LOCATION_NAME } from './operations';
 
 export const GQL_URL: string =
-  import.meta.env.VITE_GRAPHQL_URL ?? 'http://localhost:4000/';
+  import.meta.env.VITE_GRAPHQL_URL ?? 'http://localhost:4000/graphql';
 
 export interface RankActivitiesOptions {
   /** Include admin1/country/lat/long/timezone on the location (default true). */

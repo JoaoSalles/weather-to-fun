@@ -1,36 +1,21 @@
-import { createClient } from 'redis';
 import {
   OpenMeteoClient,
   CachingWeatherProvider,
   WeatherRankingService,
-  NoopCache,
   type Cache,
 } from '@collinson/weather-domain';
-import { RedisCache } from './cache/redis-cache';
 import type { Config } from './config';
 
 export interface Services {
-  service: WeatherRankingService;
-  shutdown: () => Promise<void>;
+  weatherService: WeatherRankingService;
 }
 
-/** Composition root: builds long-lived dependencies once at startup. */
-export async function composeServices(config: Config): Promise<Services> {
-  let cache: Cache = new NoopCache();
-  let shutdown = async (): Promise<void> => {
-    /* nothing to clean up when Redis is disabled */
-  };
-
-  if (config.redisUrl) {
-    const redis = createClient({ url: config.redisUrl });
-    redis.on('error', (err) => console.warn(`Redis client error: ${String(err)}`));
-    await redis.connect();
-    cache = new RedisCache(redis);
-    shutdown = async () => {
-      await redis.quit();
-    };
-  }
-
+/**
+ * Composition root: builds the domain graph from config and a cache backend.
+ * Infrastructure lifecycle (e.g. the Redis connection) is owned by the caller
+ * (see `main.ts` / `cache/redis-client.ts`), not here.
+ */
+export function composeServices(config: Config, cache: Cache): Services {
   const client = new OpenMeteoClient({
     geocodingBaseUrl: config.geocodingBaseUrl,
     forecastBaseUrl: config.forecastBaseUrl,
@@ -41,7 +26,7 @@ export async function composeServices(config: Config): Promise<Services> {
     geocodeSeconds: config.geocodeTtlSeconds,
     forecastSeconds: config.forecastTtlSeconds,
   });
-  const service = new WeatherRankingService(provider);
+  const weatherService = new WeatherRankingService(provider);
 
-  return { service, shutdown };
+  return { weatherService };
 }

@@ -27,9 +27,9 @@ const QUERY = `
   }
 `;
 
-function server(service: GraphQLContext['service']) {
+function server(weatherService: GraphQLContext['weatherService']) {
   const apollo = new ApolloServer<GraphQLContext>({ typeDefs, resolvers });
-  return { apollo, contextValue: { service } };
+  return { apollo, contextValue: { weatherService } };
 }
 
 describe('rankActivities resolver', () => {

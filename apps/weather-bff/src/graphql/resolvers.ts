@@ -8,7 +8,7 @@ import {
 } from '@collinson/weather-domain';
 
 export interface GraphQLContext {
-  service: Pick<WeatherRankingService, 'rankForCity'>;
+  weatherService: Pick<WeatherRankingService, 'rankForCity'>;
 }
 
 function toGraphQLError(error: unknown): GraphQLError {
@@ -30,7 +30,7 @@ export const resolvers = {
       context: GraphQLContext,
     ): Promise<CityRanking> => {
       try {
-        return await context.service.rankForCity(args.city);
+        return await context.weatherService.rankForCity(args.city);
       } catch (error) {
         throw toGraphQLError(error);
       }

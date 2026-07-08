@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { Cache } from '../cache/cache.port';
 import type { Location, Forecast } from '../domain/weather.types';
-import type { WeatherProvider } from './weather-ranking.service';
+import type { WeatherProvider } from '../service/weather-ranking.service';
 import { CachingWeatherProvider } from './caching-weather-provider';
 
 const location: Location = {
@@ -45,6 +45,25 @@ describe('CachingWeatherProvider', () => {
     await provider.geocode('Lisbon');
     await provider.geocode('Lisbon');
 
+    expect(inner.geocode).toHaveBeenCalledTimes(1);
+  });
+
+  it('geocode: coalesces concurrent misses into a single inner call (stampede prevention)', async () => {
+    const cache = mapCache();
+    let resolveInner!: (value: Location) => void;
+    const inner: WeatherProvider = {
+      geocode: vi.fn(() => new Promise<Location>((r) => (resolveInner = r))),
+      fetchForecast: vi.fn(async () => forecast),
+    };
+    const provider = new CachingWeatherProvider(inner, cache, { geocodeSeconds: 100, forecastSeconds: 10 });
+
+    const calls = [provider.geocode('Lisbon'), provider.geocode('Lisbon'), provider.geocode('Lisbon')];
+    // Let the read-through reach inner.geocode (past the awaited cache.get) before resolving it.
+    await vi.waitFor(() => expect(inner.geocode).toHaveBeenCalled());
+    resolveInner(location);
+    const results = await Promise.all(calls);
+
+    expect(results).toEqual([location, location, location]);
     expect(inner.geocode).toHaveBeenCalledTimes(1);
   });
 

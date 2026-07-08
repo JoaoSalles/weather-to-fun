@@ -22,4 +22,5 @@ export {
 export {
   CachingWeatherProvider,
   type CacheTtls,
-} from './service/caching-weather-provider';
+} from './utils/caching-weather-provider';
+export { SingleFlight } from './utils/single-flight';
