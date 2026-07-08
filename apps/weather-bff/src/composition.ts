@@ -22,6 +22,9 @@ export function composeServices(config: Config, cache: Cache): Services {
     timeoutMs: config.upstreamTimeoutMs,
     maxRetries: config.upstreamMaxRetries,
   });
+  // Decorate the upstream client with caching, so the service can be used without
+  // worrying about cache misses or stampedes. The cache backend is injected from
+  // the caller, so it can be a no-op in dev/test or Redis in production.
   const provider = new CachingWeatherProvider(client, cache, {
     geocodeSeconds: config.geocodeTtlSeconds,
     forecastSeconds: config.forecastTtlSeconds,

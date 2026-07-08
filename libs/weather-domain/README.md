@@ -28,7 +28,9 @@ libs/weather-domain/src
     open-meteo.client.ts                geocoding + forecast HTTP client (fetch injected)
   service/
     weather-ranking.service.ts          orchestrates geocode -> forecast -> rank
+  utils/
     caching-weather-provider.ts         decorator that caches geocode/forecast via a Cache port
+    single-flight.ts                    coalesces concurrent same-key calls (cache-stampede guard)
   cache/
     cache.port.ts                       Cache interface (get/set with TTL)
     noop-cache.ts                       default no-op implementation
@@ -75,6 +77,10 @@ Open-Meteo client with a stubbed `fetch`).
   geocode results (keyed by lowercased city) and forecasts (keyed by rounded lat/long) with
   independent TTLs (`CacheTtls`) through the `Cache` port. The library defaults to `NoopCache`; the
   BFF injects Redis.
+- **Cache-stampede protection** via `SingleFlight`: concurrent misses for the same key share a
+  single in-flight upstream call instead of each hitting Open-Meteo. Scope is per-process; across
+  replicas you'd get one call per instance (a distributed lock would be needed for cross-instance
+  deduplication).
 - **Resilience** lives in `OpenMeteoClient`: per-request timeout via `AbortController` (default 5s),
   bounded retries with exponential backoff (default 2 retries, 200ms base) on 5xx/network errors,
   and **no retry on 4xx** (client errors are surfaced as `UpstreamError` immediately). A missing
@@ -89,5 +95,3 @@ Open-Meteo client with a stubbed `fetch`).
   disambiguate same-named cities or expose alternatives.
 - **In-memory / external cache only.** The library defines the `Cache` port but ships only a
   `NoopCache`; any real cache (Redis, etc.) is the consumer's responsibility.
-- **No cross-day/seasonal context.** Each day is scored independently from that day's forecast;
-  there's no notion of trend, season, or historical baselines.

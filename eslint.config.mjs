@@ -54,6 +54,8 @@ export default [
             "**/*.mjs"
         ],
         // Override or add rules here
-        rules: {}
+        rules: {
+            "no-async-promise-executor": "error"
+        }
     }
 ];
