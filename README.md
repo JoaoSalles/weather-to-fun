@@ -1,6 +1,12 @@
 # Weather to fun
 
-This is a setup project for a fullstack project where the user can check for weather conditions for kind of activities  
+This is a setup project for a fullstack project where the user can check for weather conditions for kind of activities 
+
+## IA use
+
+This project is heavly AI assisted, the AI was spec driven using pluggins to brainstorm, spec and plan.
+It can be checked on [docs](docs)
+
 
 ## Projects
 
@@ -116,12 +122,6 @@ publishing a package to share code between the app and the API. Key benefits use
 domain library ships as ES modules with a single public entry (`libs/weather-domain/src/index.ts`),
 so consumers only bundle the exports they actually import and dead code is dropped from production
 builds.
-
-
-## IA use
-
-This project is heavly AI assisted, the AI was spec driven using pluggins to brainstorm, spec and plan.
-It can be checked on [docs](docs)
 
 
 ## graphql-codegen 
