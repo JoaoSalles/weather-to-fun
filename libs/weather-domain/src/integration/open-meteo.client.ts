@@ -7,6 +7,17 @@ export interface OpenMeteoClientOptions {
   fetchFn?: FetchFn;
   geocodingBaseUrl?: string;
   forecastBaseUrl?: string;
+  timeoutMs?: number;
+  maxRetries?: number;
+  retryBaseDelayMs?: number;
+}
+
+const DEFAULT_TIMEOUT_MS = 5000;
+const DEFAULT_MAX_RETRIES = 2;
+const DEFAULT_RETRY_BASE_DELAY_MS = 200;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const DAILY_VARS = [
@@ -54,6 +65,9 @@ export class OpenMeteoClient {
   private readonly fetchFn: FetchFn;
   private readonly geocodingBaseUrl: string;
   private readonly forecastBaseUrl: string;
+  private readonly timeoutMs: number;
+  private readonly maxRetries: number;
+  private readonly retryBaseDelayMs: number;
 
   constructor(options: OpenMeteoClientOptions = {}) {
     this.fetchFn = options.fetchFn ?? globalThis.fetch;
@@ -61,6 +75,9 @@ export class OpenMeteoClient {
       options.geocodingBaseUrl ?? 'https://geocoding-api.open-meteo.com/v1/search';
     this.forecastBaseUrl =
       options.forecastBaseUrl ?? 'https://api.open-meteo.com/v1/forecast';
+    this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+    this.maxRetries = options.maxRetries ?? DEFAULT_MAX_RETRIES;
+    this.retryBaseDelayMs = options.retryBaseDelayMs ?? DEFAULT_RETRY_BASE_DELAY_MS;
   }
 
   async geocode(city: string): Promise<Location> {
@@ -110,15 +127,34 @@ export class OpenMeteoClient {
   }
 
   private async getJson<T>(url: URL): Promise<T> {
-    let response: Response;
-    try {
-      response = await this.fetchFn(url);
-    } catch (cause) {
-      throw new UpstreamError(`Open-Meteo request failed: ${String(cause)}`);
+    let lastError = 'unknown error';
+
+    for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
+      if (attempt > 0) {
+        await sleep(this.retryBaseDelayMs * 2 ** (attempt - 1));
+      }
+
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+      try {
+        const response = await this.fetchFn(url, { signal: controller.signal });
+        if (response.ok) {
+          return (await response.json()) as T;
+        }
+        // 4xx: caller error — do not retry.
+        if (response.status < 500) {
+          throw new UpstreamError(`Open-Meteo responded with status ${response.status}`);
+        }
+        // 5xx: retryable.
+        lastError = `status ${response.status}`;
+      } catch (cause) {
+        if (cause instanceof UpstreamError) throw cause; // non-retryable 4xx
+        lastError = String(cause);
+      } finally {
+        clearTimeout(timer);
+      }
     }
-    if (!response.ok) {
-      throw new UpstreamError(`Open-Meteo responded with status ${response.status}`);
-    }
-    return (await response.json()) as T;
+
+    throw new UpstreamError(`Open-Meteo request failed after retries: ${lastError}`);
   }
 }

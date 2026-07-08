@@ -24,6 +24,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.80.0",
     "react-router": "^8.0.1",
+    "redis": "^6.0.0",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
@@ -77,6 +78,7 @@
     "vitest": "~4.1.0"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "libs/*"
   ]
 }

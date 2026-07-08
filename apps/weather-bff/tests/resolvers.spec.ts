@@ -51,6 +51,53 @@ describe('rankActivities resolver', () => {
     expect(data.rankings[0].daily[0].weather.weatherCode).toBe(0);
   });
 
+  it('omits @include-guarded fields when the toggle is false', async () => {
+    const DYNAMIC_QUERY = `
+      query Rank($city: String!, $includeLocationDetails: Boolean!, $includeWeather: Boolean!) {
+        rankActivities(city: $city) {
+          location {
+            name
+            country @include(if: $includeLocationDetails)
+          }
+          rankings { activity daily { date weather @include(if: $includeWeather) { weatherCode } } }
+        }
+      }
+    `;
+    const { apollo, contextValue } = server({ rankForCity: async () => ranking });
+    const res = await apollo.executeOperation(
+      { query: DYNAMIC_QUERY, variables: { city: 'Lisbon', includeLocationDetails: false, includeWeather: false } },
+      { contextValue },
+    );
+    if (res.body.kind !== 'single') throw new Error('unexpected');
+    expect(res.body.singleResult.errors).toBeUndefined();
+    const data = res.body.singleResult.data?.['rankActivities'] as {
+      location: { name: string; country?: string };
+      rankings: { daily: { weather?: unknown }[] }[];
+    };
+    expect(data.location.name).toBe('Lisbon');
+    expect('country' in data.location).toBe(false);
+    expect('weather' in (data.rankings[0].daily[0] ?? {})).toBe(false);
+  });
+
+  it('includes @include-guarded fields when the toggle is true', async () => {
+    const DYNAMIC_QUERY = `
+      query Rank($city: String!, $includeLocationDetails: Boolean!) {
+        rankActivities(city: $city) {
+          location { name country @include(if: $includeLocationDetails) }
+          rankings { activity }
+        }
+      }
+    `;
+    const { apollo, contextValue } = server({ rankForCity: async () => ranking });
+    const res = await apollo.executeOperation(
+      { query: DYNAMIC_QUERY, variables: { city: 'Lisbon', includeLocationDetails: true } },
+      { contextValue },
+    );
+    if (res.body.kind !== 'single') throw new Error('unexpected');
+    const data = res.body.singleResult.data?.['rankActivities'] as { location: { country?: string } };
+    expect(data.location.country).toBe('Portugal');
+  });
+
   it('surfaces CityNotFoundError as a CITY_NOT_FOUND GraphQL error', async () => {
     const { apollo, contextValue } = server({
       rankForCity: async () => { throw new CityNotFoundError('zzz'); },

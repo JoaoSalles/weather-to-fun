@@ -11,9 +11,15 @@ export { CityNotFoundError, UpstreamError, InvalidInputError } from './domain/er
 export { rankActivities } from './domain/rank-activities';
 export { scorers } from './domain/scoring/registry';
 export type { ActivityScorer } from './domain/scoring/activity-scorer';
+export type { Cache } from './cache/cache.port';
+export { NoopCache } from './cache/noop-cache';
 export { OpenMeteoClient } from './integration/open-meteo.client';
 export type { OpenMeteoClientOptions } from './integration/open-meteo.client';
 export {
   WeatherRankingService,
   type WeatherProvider,
 } from './service/weather-ranking.service';
+export {
+  CachingWeatherProvider,
+  type CacheTtls,
+} from './service/caching-weather-provider';

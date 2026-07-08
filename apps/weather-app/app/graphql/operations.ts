@@ -1,15 +1,19 @@
 import { graphql } from './generated';
 
 export const RANK_ACTIVITIES = graphql(`
-  query RankActivities($city: String!) {
+  query RankActivities(
+    $city: String!
+    $includeLocationDetails: Boolean = true
+    $includeWeather: Boolean = true
+  ) {
     rankActivities(city: $city) {
       location {
         name
-        admin1
-        country
-        latitude
-        longitude
-        timezone
+        admin1 @include(if: $includeLocationDetails)
+        country @include(if: $includeLocationDetails)
+        latitude @include(if: $includeLocationDetails)
+        longitude @include(if: $includeLocationDetails)
+        timezone @include(if: $includeLocationDetails)
       }
       rankings {
         activity
@@ -17,7 +21,7 @@ export const RANK_ACTIVITIES = graphql(`
         daily {
           date
           score
-          weather {
+          weather @include(if: $includeWeather) {
             date
             weatherCode
             tempMaxC
@@ -30,6 +34,16 @@ export const RANK_ACTIVITIES = graphql(`
             precipitationProbabilityMax
           }
         }
+      }
+    }
+  }
+`);
+
+export const GET_LOCATION_NAME = graphql(`
+  query GetLocationName($city: String!) {
+    rankActivities(city: $city) {
+      location {
+        name
       }
     }
   }

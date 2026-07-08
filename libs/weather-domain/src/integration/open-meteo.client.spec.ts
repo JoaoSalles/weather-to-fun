@@ -36,6 +36,53 @@ describe('OpenMeteoClient.geocode', () => {
   });
 });
 
+describe('OpenMeteoClient resilience', () => {
+  const geoResponse = {
+    ok: true,
+    status: 200,
+    json: async () => ({ results: [{ name: 'Lisbon', latitude: 38.7, longitude: -9.1, timezone: 'Europe/Lisbon' }] }),
+  } as unknown as Response;
+
+  it('retries on a 5xx then succeeds', async () => {
+    const fetchFn = vi.fn()
+      .mockResolvedValueOnce({ ok: false, status: 503 } as Response)
+      .mockResolvedValueOnce(geoResponse);
+    const client = new OpenMeteoClient({ fetchFn, maxRetries: 2, retryBaseDelayMs: 1 });
+
+    const location = await client.geocode('Lisbon');
+
+    expect(location.name).toBe('Lisbon');
+    expect(fetchFn).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not retry on a 4xx and throws UpstreamError', async () => {
+    const fetchFn = vi.fn().mockResolvedValue({ ok: false, status: 400 } as Response);
+    const client = new OpenMeteoClient({ fetchFn, maxRetries: 2, retryBaseDelayMs: 1 });
+
+    await expect(client.geocode('Lisbon')).rejects.toThrow(UpstreamError);
+    expect(fetchFn).toHaveBeenCalledTimes(1);
+  });
+
+  it('retries on a fetch rejection then throws after exhausting retries', async () => {
+    const fetchFn = vi.fn().mockRejectedValue(new Error('network down'));
+    const client = new OpenMeteoClient({ fetchFn, maxRetries: 1, retryBaseDelayMs: 1 });
+
+    await expect(client.geocode('Lisbon')).rejects.toThrow(UpstreamError);
+    expect(fetchFn).toHaveBeenCalledTimes(2); // initial + 1 retry
+  });
+
+  it('aborts a hanging request after timeoutMs and surfaces UpstreamError', async () => {
+    const fetchFn = vi.fn((_input: string | URL | Request, init?: RequestInit) =>
+      new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
+      }),
+    );
+    const client = new OpenMeteoClient({ fetchFn, timeoutMs: 5, maxRetries: 0, retryBaseDelayMs: 1 });
+
+    await expect(client.geocode('Lisbon')).rejects.toThrow(UpstreamError);
+  });
+});
+
 describe('OpenMeteoClient.fetchForecast', () => {
   it('transposes columnar daily arrays and converts unixtime to ISO date', async () => {
     // 1783382400 = 2026-07-07T00:00:00Z; with utc_offset_seconds 0 -> 2026-07-07
